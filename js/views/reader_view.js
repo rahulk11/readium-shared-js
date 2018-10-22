@@ -475,7 +475,9 @@ var ReaderView = function (options) {
         else {
             fallback = true;
         }
-
+        if(pageRequestData && pageRequestData.percent){
+            ReadiumSDK.reader.gotoPercent = pageRequestData.percent;
+        } else ReadiumSDK.reader.gotoPercent = 0; 
         if (fallback) {// if we where not asked to open specific page we will open the first one
 
             var spineItem = _spine.first();
