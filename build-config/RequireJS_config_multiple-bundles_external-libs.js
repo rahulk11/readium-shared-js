@@ -25,7 +25,7 @@ require.config({
             create: true,
             include: ['jquery', 'underscore', 'readium_cfi_js',
             'URIjs', 'punycode', 'SecondLevelDomains', 'IPv6',
-            'jquerySizes', 'domReady', 'eventEmitter', 'console_shim', 'cssom'],
+            'jquerySizes', 'domReady', 'eventEmitter', 'console_shim', 'rangy', 'rangy-core', 'rangy-textrange', 'rangy-cssclassapplier', 'rangy-highlighter', 'rangy-position', 'cssom'],
         }
     ]
 });

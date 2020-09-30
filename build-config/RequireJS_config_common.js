@@ -28,10 +28,6 @@ require.config({
     paths:
     {
         // ------ NPM MODULEs
-
-        'readium_cfi_js':
-            process._RJS_rootDir(0) + '/node_modules/readium-cfi-js/dist/readium-cfi.umd',
-
         "readium_js_plugins":
             process._RJS_rootDir(0) + '/js/plugins_controller',
 
@@ -74,13 +70,71 @@ require.config({
         // ------ LIBs
 
         'console_shim':
-            process._RJS_rootDir(0) + '/lib/console_shim'
+            process._RJS_rootDir(0) + '/lib/console_shim',
+        'readium_cfi_js':
+            process._RJS_rootDir(0) + '/lib/readium-cfi-js/readium-cfi.umd',
+        rangy:
+            process._RJS_rootDir(0) + '/lib/rangy/rangy',
+
+        "rangy-core":
+            process._RJS_rootDir(0) + '/lib/rangy/rangy-core',
+
+        "rangy-textrange":
+            process._RJS_rootDir(0) + '/lib/rangy/rangy-textrange',
+
+        "rangy-highlighter":
+            process._RJS_rootDir(0) + '/lib/rangy/rangy-highlighter',
+
+        "rangy-cssclassapplier":
+            process._RJS_rootDir(0) + '/lib/rangy/rangy-cssclassapplier',
+
+        "rangy-position":
+            process._RJS_rootDir(0) + '/lib/rangy/rangy-position'
     },
 
     shim:
     {
         cssom: {
             exports: 'CSSOM'
+        },
+
+        jquerySizes: {
+            deps: ['jquery'],
+            exports: 'jQuery'
+        },
+
+        'rangy-core': {
+            deps: ["domReady"],
+
+            init:
+            function(domReady)
+            {
+                var rangi = this.rangy;
+                domReady(
+                function()
+                {
+                    rangi.init();
+                });
+                return this.rangy;
+            },
+
+            exports: "rangy" // global.rangy
+        },
+        'rangy-textrange': {
+            deps: ["rangy-core"],
+            exports: "rangy.modules.TextRange"
+        },
+        'rangy-highlighter': {
+            deps: ["rangy-core"],
+            exports: "rangy.modules.Highlighter"
+        },
+        'rangy-cssclassapplier': {
+            deps: ["rangy-core"],
+            exports: "rangy.modules.ClassApplier"
+        },
+        'rangy-position': {
+            deps: ["rangy-core"],
+            exports: "rangy.modules.Position"
         }
     }
 });

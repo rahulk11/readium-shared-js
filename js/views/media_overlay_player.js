@@ -26,8 +26,8 @@
 //  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 //  OF THE POSSIBILITY OF SUCH DAMAGE.
 
-define(["../globals", "jquery", "../helpers", "./audio_player", "./media_overlay_element_highlighter", "../models/smil_iterator", 'readium_cfi_js', './scroll_view'],
-    function(Globals, $, Helpers, AudioPlayer, MediaOverlayElementHighlighter, SmilIterator, EPUBcfi, ScrollView) {
+define(["../globals", "jquery", "../helpers", "./audio_player", "./media_overlay_element_highlighter", "../models/smil_iterator", "rangy", 'readium_cfi_js', './scroll_view'],
+    function(Globals, $, Helpers, AudioPlayer, MediaOverlayElementHighlighter, SmilIterator, rangy, epubCfi, ScrollView) {
 /**
  *
  * @param reader
@@ -568,8 +568,20 @@ var MediaOverlayPlayer = function(reader, onStatusChanged) {
                 ["MathJax_Message"]);
 //console.log(infoEnd);
 
-                // TODO: get string range to speak
-                _currentTTS = undefined;
+                if (rangy)
+                {
+                    //infoStart.textNode.parentNode.ownerDocument
+                    var range = rangy.createRange(doc); //createNativeRange
+                    range.setStartAndEnd(
+                        infoStart.textNode, infoStart.textOffset,
+                        infoEnd.textNode, infoEnd.textOffset
+                    );
+                    _currentTTS = range.toString(); //.text()
+                }
+                else
+                {
+                    _currentTTS = undefined;
+                }
 
                 if (!_currentTTS || _currentTTS == "")
                 {
