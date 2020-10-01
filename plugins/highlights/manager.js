@@ -177,6 +177,17 @@ var HighlightsManager = function (proxyObj, options) {
     };
 
     this.removeHighlight = function(id) {
+        var selections = localStorage.getItem("selections")
+        if(selections){
+            selections = JSON.parse(selections)
+            if(selections.length > 0){
+                var filteredItems = selections.filter(function(item)
+                {
+                    return JSON.parse(item).highlightID != id
+                });
+                localStorage.setItem("selections", JSON.stringify(filteredItems)) 
+            }
+        }
         var result = undefined;
         for(var spine in liveAnnotations) {
             var annotationsForView = liveAnnotations[spine];
